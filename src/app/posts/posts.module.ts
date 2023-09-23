@@ -13,7 +13,7 @@ import { CommentComponent } from './post/posts/post/comments/comment/comment.com
     PostsComponent,
     PostComponent,
     CommentsComponent,
-    CommentComponent
+    CommentComponent,
   ],
   imports: [
     CommonModule,
