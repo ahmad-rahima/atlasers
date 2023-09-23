@@ -1,17 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
-
 $primary: #a64982;
 $secondary: #97bfb0;
-// $secondary: #509a9d;
+$secondary: #509a9d;
+$gray: #212529;
 
 $dark: #2d2d2d;
+$body-bg-dark: #2d2d2d;
 $light: antiquewhite;
-
-html {
-    background-color: $dark;
-}
-
 
 // set changes
 @import "bootstrap";

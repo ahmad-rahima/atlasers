@@ -1,0 +1,17 @@
+
+@import "src/styles";
+
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.posts {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+}

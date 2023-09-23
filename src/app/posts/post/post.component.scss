@@ -1,0 +1,40 @@
+
+@import "src/styles";
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+.post {
+    background-color: $gray;
+    padding: 1em;
+    border-radius: 1em;
+    box-shadow: $primary 0 0 10px;
+}
+
+.list__tags {
+    display: flex;
+    justify-content: flex-start;
+    gap: .5em;
+    width: max-content;
+}
+
+.list__tag {
+    padding: .1em .5em;
+    background-color: $secondary;
+    color: white;
+    border-radius: .5em;
+}
+
+.list__tag:hover,
+.list__tag:focus {
+    background-color: white;
+    color: $secondary;
+}
