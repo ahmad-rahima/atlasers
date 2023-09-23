@@ -1,0 +1,14 @@
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.animal-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2em;
+}
+

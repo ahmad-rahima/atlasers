@@ -1,0 +1,8 @@
+@import "src/styles";
+
+.root {
+    background-color: $secondary;
+    border-radius: .5em;
+    box-shadow: $primary 0 0 10px;
+    padding: 2em;
+}
