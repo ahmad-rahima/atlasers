@@ -15,6 +15,9 @@ import { CommentComponent } from './post/posts/post/comments/comment/comment.com
     CommentsComponent,
     CommentComponent,
   ],
+  exports: [
+    PostsComponent,
+  ],
   imports: [
     CommonModule,
     PostsRoutingModule
