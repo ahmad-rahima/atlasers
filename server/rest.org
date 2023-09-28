@@ -1,0 +1,387 @@
+#+title: Rest
+
+* DONE Auth
+** DONE Register
+#+begin_src restclient :results output
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{"username": "username", "password": "password"}
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Logged in successfully",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTE0MjI4OGI0N2JlYzAzODhhMGE5NjYiLCJpYXQiOjE2OTU4MTgzNzYsImV4cCI6MTY5NTgyMTk3Nn0.-hOD6inzHshd9jgbESAqaXc29RhpvVCNeh2NCCUD4Gs"
+}
+// POST http://localhost:3000/auth/register
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 219
+// ETag: W/"db-nwasfDB6V21DBewIHfIlg8WUZ08"
+// Date: Wed, 27 Sep 2023 12:39:36 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.094787s
+#+END_SRC
+
+** DONE Filter TOKEN
+#+name: filter_token
+#+begin_src js :results output :var json="{}"
+console.log(JSON.parse(json).token)
+#+end_src
+
+#+RESULTS: filter_token
+: undefined
+
+** DONE Register TOKEN
+Same as [[Register]], But get the token only.
+
+#+name: register_token
+#+begin_src restclient :results value :post filter_token(json=*this*)
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{"username": "username", "password": "password"}
+#+end_src
+
+#+RESULTS: register_token
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTE0MjVmNjkzOWYwN2VkNWNmOGRkNTYiLCJpYXQiOjE2OTU4MTkyNTQsImV4cCI6MTY5NTgyMjg1NH0.whAjuENnEwE837sI9J04G-CEI-bKCKJePmbyR0ygY4w
+
+** DONE Login TOKEN
+#+name: login
+#+begin_src restclient :results value :post filter_token(json=*this*) :cache yes
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{"username": "username", "password": "password"}
+
+#+end_src
+
+#+RESULTS[54112f04051b2511fe5176cf436107ebccf85157]: login
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTE0MjA1YmJlZTcxMjBmODk3ZjY3YzYiLCJpYXQiOjE2OTU4NTkxMjUsImV4cCI6MTY5NTg2MjcyNX0.3MWaQ-cv_qjlwLZSv48dLb-joduIV19Sp-uS0PJsfgo
+
+
+* DONE Posts
+** DONE GET Posts authorized
+#+begin_src restclient :noweb yes :var token=login()
+GET http://localhost:3000/posts
+Authorization: Bearer :token
+
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "posts": [
+    {
+      "_id": "650fa594343585857911189d",
+      "id": "dummy",
+      "content": "New Another Content",
+      "userId": "dummyUser",
+      "__v": 0
+    },
+    {
+      "_id": "650fa7c4ff0b34b96b9b38ca",
+      "content": "new Content",
+      "userId": "dummyUser",
+      "__v": 0
+    },
+    {
+      "_id": "6514a7b3946c6ffb6b8d6ec5",
+      "content": "Add me as a POST!",
+      "userId": "dummyUser",
+      "__v": 0
+    },
+    {
+      "_id": "6514a8178f3daac780d1b312",
+      "content": "Add me as a POST!",
+      "userId": "6514205bbee7120f897f67c6",
+      "__v": 0
+    },
+    {
+      "_id": "6514a82f8f3daac780d1b319",
+      "content": "Add me as a POST!",
+      "userId": "6514205bbee7120f897f67c6",
+      "__v": 0
+    },
+    {
+      "_id": "6514c1c9268b3387ac9a132d",
+      "content": "Add me as a POST!",
+      "userId": "6514205bbee7120f897f67c6",
+      "__v": 0
+    },
+    {
+      "_id": "6514c1d3268b3387ac9a1330",
+      "content": "",
+      "userId": "6514205bbee7120f897f67c6",
+      "__v": 0
+    }
+  ]
+}
+// GET http://localhost:3000/posts
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 721
+// ETag: W/"2d1-2g8pb5KXUxx7BKVc70y65yXY0kc"
+// Date: Thu, 28 Sep 2023 00:17:41 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.347756s
+#+END_SRC
+
+** DONE POST Post
+#+begin_src restclient :var token=login()
+POST http://localhost:3000/posts
+Authorization: Bearer :token
+Content-Type: application/json
+
+{"content": "Add me please"}
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "post": {
+    "content": "Add me please",
+    "userId": "6514205bbee7120f897f67c6",
+    "_id": "6514c64420c32882fe0d410c",
+    "__v": 0
+  }
+}
+// POST http://localhost:3000/posts
+// HTTP/1.1 201 Created
+// X-Powered-By: Express
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 113
+// ETag: W/"71-5tSN5cDiVUVbULnKNo665PAd4kA"
+// Date: Thu, 28 Sep 2023 00:18:12 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.024358s
+#+END_SRC
+
+** DONE PUT Post
+I will use a fixed id, this is not the best way for this!
+#+begin_src restclient :var token=login()
+PUT http://localhost:3000/posts/6514282f939f07ed5cf8dd6c
+Authorization: Bearer :token
+Content-Type: application/json
+
+{"content": "Content modified!"}
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Post updated successfuly",
+  "post": null
+}
+// PUT http://localhost:3000/posts/6514282f939f07ed5cf8dd6c
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 50
+// ETag: W/"32-82mqTpbQHPz/IhHSmz9+AtdCoi0"
+// Date: Thu, 28 Sep 2023 00:18:22 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.160909s
+#+END_SRC
+
+** DONE DELETE Post
+#+begin_src restclient :var token=login()
+DELETE http://localhost:3000/posts/6514282f939f07ed5cf8dd6c
+Authorization: Bearer :token
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Post deleted successfuly"
+}
+// DELETE http://localhost:3000/posts/6514282f939f07ed5cf8dd6c
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 38
+// ETag: W/"26-JBPlJaBJtf5x3HzrqeFE6C8Q0Xo"
+// Date: Wed, 27 Sep 2023 22:03:34 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.008694s
+#+END_SRC
+* DONE Profile
+** DONE GET Profiles
+#+begin_src restclient :var token=login()
+GET http://localhost:3000/profiles
+Authorization: Bearer :token
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+[
+  {
+    "_id": "6511e85c45b1d7d0fc291275",
+    "bio": "My Bio",
+    "__v": 0
+  },
+  {
+    "_id": "6511ea492228d1aa77777065",
+    "bio": "My another bio",
+    "__v": 0
+  }
+]
+// GET http://localhost:3000/profiles
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 125
+// ETag: W/"7d-5dhBmjEeBeSAw01jI0uKptqQxFU"
+// Date: Wed, 27 Sep 2023 22:47:15 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.199882s
+#+END_SRC
+** DONE GET Profile
+#+begin_src restclient :var token=login()
+GET http://localhost:3000/profiles/6514205bbee7120f897f67c6
+Authorization: Bearer :token
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "User does not have a profile!",
+  "profile": null
+}
+// GET http://localhost:3000/profiles/6514205bbee7120f897f67c6
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 58
+// ETag: W/"3a-zcaP4wqNWay9KL+Z0MUoTxZtlGU"
+// Date: Wed, 27 Sep 2023 23:01:22 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.017604s
+#+END_SRC
+
+** DONE POST Profile
+#+begin_src restclient :var token=login()
+POST http://localhost:3000/profiles
+Authorization: Bearer :token
+Content-Type: application/json
+
+{"bio": "New Bio"}
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Added user successfully",
+  "profile": {
+    "_id": "6514205bbee7120f897f67c6",
+    "bio": "New Bio",
+    "__v": 0
+  }
+}
+// POST http://localhost:3000/profiles
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 106
+// ETag: W/"6a-nv/kc1Jk/HCV+9bQZ+aLCTNsGlM"
+// Date: Wed, 27 Sep 2023 22:52:46 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.047640s
+#+END_SRC
+
+** DONE PUT Profile
+#+begin_src restclient :var token=login()
+PUT http://localhost:3000/profiles/6514205bbee7120f897f67c6
+Content-Type: application/json
+Authorization: Bearer :token
+
+{"bio": "Again New Bio"}
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "User does not have a profile!"
+}
+// PUT http://localhost:3000/profiles/6514205bbee7120f897f67c6
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 43
+// ETag: W/"2b-A05tMyf+qpI4PXGZesmKc/vyG9U"
+// Date: Wed, 27 Sep 2023 23:05:03 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.020689s
+#+END_SRC
+
+** DONE DELETE Profile
+#+begin_src restclient :var token=login()
+DELETE http://localhost:3000/profiles/6514205bbee7120f897f67c6
+Authorization: Bearer :token
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Profile deleted successfully"
+}
+// DELETE http://localhost:3000/profiles/6514205bbee7120f897f67c6
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 42
+// ETag: W/"2a-TkGcC/0+lkh26Mo7bHbw30135PA"
+// Date: Wed, 27 Sep 2023 23:00:45 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.014579s
+#+END_SRC
+** DONE GET Profile Posts
+#+begin_src restclient :var token=login()
+GET http://localhost:3000/profiles/6514205bbee7120f897f67c6/posts?page=1
+Authorization: Bearer :token
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Fetched posts by user username successfully",
+  "posts": [
+    {
+      "_id": "6514a8178f3daac780d1b312",
+      "content": "Add me as a POST!",
+      "userId": "6514205bbee7120f897f67c6",
+      "__v": 0
+    },
+    {
+      "_id": "6514a82f8f3daac780d1b319",
+      "content": "Add me as a POST!",
+      "userId": "6514205bbee7120f897f67c6",
+      "__v": 0
+    }
+  ]
+}
+// GET http://localhost:3000/profiles/6514205bbee7120f897f67c6/posts?page=1
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 285
+// ETag: W/"11d-j9GgsNrRVAq13gk1egn0DrFtazU"
+// Date: Thu, 28 Sep 2023 00:51:45 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.013160s
+#+END_SRC
