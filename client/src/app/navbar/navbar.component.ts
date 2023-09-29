@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AuthActions } from '../state/actions/auth.actions';
 
 @Component({
   selector: 'app-navbar',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+  private store = inject(Store);
 
+  onLogOut() {
+    this.store.dispatch(AuthActions.logOut());
+  }
 }

@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 import { body, validationResult } from 'express-validator';
 import asyncHandler from 'express-async-handler';
+import passport from 'passport';
 
 
 const router = Router();
@@ -93,15 +94,21 @@ router.post('/token', [
     res.json({ message: 'New access token generated', token });
 }));
 
-router.get('/logout', async(req, res) => {
-    const { refreshToken } = req.body;
-    const user = await User.findOne({ refreshToken });
-    if (!user)
-        res.status(400).json({ message: 'Invalid refresh token' });
 
-    user.refreshToken = null;
-    res.json({ message: 'User logged out successfully' });
-});
+router.get(
+    '/logout',
+    passport.authenticate('jwt', { session: false }),
+    async(req, res) => {
+        console.log(req.headers);
+        const user: any = req.user;
+        if (!user) {
+            res.status(400).json({ message: 'User not provided' });
+            return;
+        }
+
+        user.refreshToken = null;
+        res.json({ message: 'User logged out successfully' });
+    });
 
 
 export default router;
