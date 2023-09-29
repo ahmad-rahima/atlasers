@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { authSelect, tokenSelect } from '../../state/selectors/auth.selectors';
 import { AuthActions } from '../../state/actions/auth.actions';
 import { NgForm } from '@angular/forms';
 

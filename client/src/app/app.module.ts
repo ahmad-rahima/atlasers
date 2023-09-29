@@ -11,8 +11,6 @@ import { AnimalInfoComponent } from './atlas/animal-info/animal-info.component';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './state/effects/auth.effects';
 import { StoreModule } from '@ngrx/store';
-import { AuthModule } from './auth/auth.module';
-import { authSelect } from './state/selectors/auth.selectors';
 import { authReducer } from './state/reducers/auth.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AuthInterceptor } from './auth.interceptor';

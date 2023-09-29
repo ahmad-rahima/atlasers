@@ -5,14 +5,14 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable, catchError, combineLatest, forkJoin, last, lastValueFrom, map, of, switchMap, take, takeLast, tap } from 'rxjs';
+import { Observable, map, switchMap, take, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { authSelect } from './state/selectors/auth.selectors';
+import { selectAuth } from './state/selectors/auth.selectors';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private store = inject(Store<{ authSelect: any }>);
-  private auth$ = this.store.select(authSelect);
+  private auth$ = this.store.select(selectAuth);
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return this.auth$.pipe(
