@@ -14,6 +14,10 @@ import { StoreModule } from '@ngrx/store';
 import { authReducer } from './state/reducers/auth.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AuthInterceptor } from './auth.interceptor';
+import { profileReducers } from './state/reducers/profile.reducers';
+import { ProfileEffects } from './state/effects/profile.effects';
+import { postsReducer } from './state/reducers/posts.reducers';
+import { PostsEffects } from './state/effects/posts.effects';
 
 
 @NgModule({
@@ -29,6 +33,8 @@ import { AuthInterceptor } from './auth.interceptor';
     HttpClientModule,
     StoreModule.forRoot({
       'auth': authReducer,
+      'profile': profileReducers,
+      'posts': postsReducer,
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
@@ -38,7 +44,7 @@ import { AuthInterceptor } from './auth.interceptor';
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
       connectOutsideZone: true // If set to true, the connection is established outside the Angular zone for better performance
     }),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, ProfileEffects, PostsEffects]),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

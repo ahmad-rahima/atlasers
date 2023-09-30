@@ -3,6 +3,7 @@ import { Injectable, inject } from "@angular/core";
 import { map, take } from "rxjs";
 import { selectAuth } from "../state/selectors/auth.selectors";
 import { Store } from "@ngrx/store";
+import { LoginResponse, LogoutResponse, RefreshTokenResponse, RegisterResponse } from "../dto";
 
 
 @Injectable({

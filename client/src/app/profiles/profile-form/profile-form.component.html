@@ -1,0 +1,7 @@
+<div *ngIf="authed; else add">
+    <app-profile-form-update></app-profile-form-update>
+</div>
+
+<ng-template #add>
+    <app-profile-form-add></app-profile-form-add>
+</ng-template>

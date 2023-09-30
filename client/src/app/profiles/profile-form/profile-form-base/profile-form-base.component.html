@@ -1,0 +1,22 @@
+<div class="root container">
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+        <div class="mb-3">
+            <label for="displayName" class="form-label">Display Name:</label>
+            <input ngModel="displayName" name="displayName" class="form-control" id="displayName">
+        </div>
+        <div class="mb-3">
+            <label for="bio" class="form-label">Bio:</label>
+            <input ngModel="bio" name="bio" class="form-control" id="bio">
+        </div>
+        <div class="mb-3">
+            <label for="gender" class="form-label">Gender:</label>
+            <input ngModel="gender" name="gender" class="form-control" id="gender">
+        </div>
+        <div class="mb-3">
+            <label for="gender" class="form-label">Nationality:</label>
+            <input ngModel="nationality" name="nationality" class="form-control" id="nationality">
+        </div>
+
+        <button class="btn btn-success mt-3" [innerText]="method"></button>
+    </form>
+</div>

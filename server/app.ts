@@ -30,6 +30,7 @@ app.use((req, res, next) => {
 
 app.options('*', (req: any, res: any) => {
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Methods', 'PUT');
     res.send();
 });
 

@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { PostsRoutingModule } from './posts-routing.module';
 import { PostsComponent } from './posts.component';
 import { PostComponent } from './post/post.component';
-import { CommentsComponent } from './post/posts/post/comments/comments.component';
-import { CommentComponent } from './post/posts/post/comments/comment/comment.component';
+import { CommentsComponent } from './post/comments/comments.component';
+import { CommentComponent } from './post/comments/comment/comment.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { CommentComponent } from './post/posts/post/comments/comment/comment.com
   ],
   imports: [
     CommonModule,
-    PostsRoutingModule
+    PostsRoutingModule,
+    FormsModule,
   ]
 })
 export class PostsModule { }

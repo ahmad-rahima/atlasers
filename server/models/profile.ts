@@ -8,7 +8,7 @@ const profileSchema = new Schema({
         maxLength: [512, "User bio must be 512 at maximum."]
     },
     born: Date,
-    joined: Date,
+    joined: { type: Date, default: Date.now, required: true },
     gender: {
         type: String,
         enum: { values: ['Male', 'Female'], message: '{VALUE} is not supported' },

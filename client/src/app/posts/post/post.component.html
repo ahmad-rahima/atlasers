@@ -5,9 +5,7 @@
     </ul>
     <img src="" alt="some image" class="img-fluid" />
     <p class="my-3">
-        Sagittis vitae et leo duis ut diam quam nulla porttitor massa id neque aliquam vestibulum morbi blandit cursus
-        risus, at ultrices mi tempus imperdiet nulla. Nulla pellentesque dignissim enim, sit.
+        {{ post.content }}
     </p>
-    <app-comments>
-    </app-comments>
+    <app-comments [postId]="post._id" [comments]="post.comments"></app-comments>
 </div>

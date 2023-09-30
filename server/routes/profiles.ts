@@ -9,15 +9,25 @@ import Post from "../models/post.js";
 const router = Router();
 
 
-export interface UserDTO {
-    user: string;
-    bio: string;
-    born: Date;
-    joined: Date;
-    nationality: string;
-    gender: string;
-}
+// TODO: add sort
+router.get('/:id/posts', asyncHandler(async(req, res) => {
+    console.log("User: ", req.user);
+    console.log("Query: ", req.query);
+    console.log("Page: ", req.query.page);
 
+    const page = + req.query.page || 1;
+    const pageSize = 2;
+
+
+    const posts = await Post.find({ user: (req.user as any).id })
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+    res.json({
+        message: `Fetched posts by user ${(req.user as any).username} successfully`,
+        posts
+    });
+    return;
+}));
 
 router.get('/:id', asyncHandler(async(req, res) => {
     const user = await User.findById(req.params.id);
@@ -46,8 +56,12 @@ router.get('/:id', asyncHandler(async(req, res) => {
     return;
 }));
 
+// TODO: add pagination to this!
 router.get('/', asyncHandler(async(req, res) => {
-    res.json(await Profile.find());
+    res.json({
+        message: 'Fetched all profiles successfully',
+        profiles: await Profile.find()
+    });
     return;
 }));
 
@@ -116,21 +130,6 @@ router.delete('/:id', asyncHandler(async(req, res) => {
     await Profile.findByIdAndRemove(userId);
     res.json({
         message: 'Profile deleted successfully'
-    });
-    return;
-}));
-
-// TODO: add sort
-router.get('/:id/posts', asyncHandler(async(req, res) => {
-    const page = + req.query.page || 1;
-    const pageSize = 2;
-
-    const posts = await Post.find({ user: (req.user as any).id })
-        .skip((page - 1) * pageSize)
-        .limit(pageSize);
-    res.json({
-        message: `Fetched posts by user ${(req.user as any).username} successfully`,
-        posts
     });
     return;
 }));

@@ -2,6 +2,7 @@ import { createReducer, on } from "@ngrx/store";
 import { AuthActions } from "../actions/auth.actions";
 import { AuthState } from "../auth.state";
 import jwt_decode from 'jwt-decode';
+import { LoginResponse } from "src/app/dto";
 
 
 const initialState: AuthState = {
@@ -15,8 +16,8 @@ const initialState: AuthState = {
   error: '',
 };
 
-function process(data: { token: string, refreshToken: string }) {
-  const decodedToken: any = jwt_decode(data.token);
+function process(data: LoginResponse) {
+  const decodedToken: any = jwt_decode(data.accessToken);
   return {
     userId: decodedToken.sub,
     expiresIn: decodedToken.exp,
@@ -29,13 +30,13 @@ export const authReducer = createReducer(
   /* log in */
   on(AuthActions.logIn, (state, _) => ({ ...state, loading: true })),
 
-  on(AuthActions.authenticated, (state, data: { token: string, refreshToken: string }) => {
+  on(AuthActions.authenticated, (state, data: LoginResponse) => {
     const { userId, expiresIn } = process(data);
     return {
       ...state,
       loading: false,
       error: '',
-      accessToken: data.token,
+      accessToken: data.accessToken,
       refreshToken: data.refreshToken,
       userId,
       expiresIn,
@@ -64,7 +65,7 @@ export const authReducer = createReducer(
     ...state,
     error: '',
     loading: false,
-    accessToken: data.token,
+    accessToken: data.accessToken,
   })),
 
   /* register */

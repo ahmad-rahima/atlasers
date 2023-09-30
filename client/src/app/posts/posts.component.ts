@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-posts',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./posts.component.scss']
 })
 export class PostsComponent {
-
+  @Input() posts = [];
 }

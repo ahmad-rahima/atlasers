@@ -38,8 +38,8 @@ router.post('/register', [
         refreshToken,
     });
 
-    const token = jwt.sign({ sub: user.id }, 'secret', { expiresIn: '1h' });
-    res.json({ message: 'Logged in successfully', token, refreshToken });
+    const accessToken = jwt.sign({ sub: user.id }, 'secret', { expiresIn: '1h' });
+    res.json({ message: 'Registered successfully', accessToken, refreshToken });
 }));
 
 router.post('/login', [
@@ -64,16 +64,16 @@ router.post('/login', [
     const passwordHashed = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512');
 
     if (crypto.timingSafeEqual(hash, passwordHashed)) {
-        const token = jwt.sign({ sub: id }, 'secret', { expiresIn: '1h' });
-        res.json({ token, refreshToken });
+        const accessToken = jwt.sign({ sub: id }, 'secret', { expiresIn: '1h' });
+        res.json({ accessToken, refreshToken, message: 'Logged in successfully' });
     } else {
         res.sendStatus(401);
     }
 }));
 
 router.post('/token', [
-    body('token').trim().isJWT()
-        .withMessage('Token must be provided of type JWT.'),
+    body('refreshToken').trim().isJWT()
+        .withMessage('Refresh token must be provided of type JWT.'),
 ], asyncHandler(async(req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {

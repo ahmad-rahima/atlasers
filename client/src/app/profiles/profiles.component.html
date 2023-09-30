@@ -1,4 +1,8 @@
-<div class="user-info">
+<!--{{  profilesStore$ | async | json }}-->
+
+<a routerLink="form">Update</a>
+
+<div class="user-info" *ngIf="profilesStore$ | async as profile">
     <div class="p-3">
         <div class="container p-5">
             <div class="user-top-info">
@@ -8,13 +12,13 @@
                 </div>
                 <dl>
                     <dt><small>Born</small></dt>
-                    <dd><small>1/1/2001</small></dd>
+                    <dd><small>{{  profile.profile.born || '-' }}</small></dd>
 
                     <dt><small>Nationality</small></dt>
-                    <dd><small>Syria</small></dd>
+                    <dd><small>{{  profile.profile.nationality || '-' }}</small></dd>
 
                     <dt><small>Gender</small></dt>
-                    <dd><small>Male</small></dd>
+                    <dd><small>{{  profile.profile.gender || '-' }}</small></dd>
 
                     <dt><small>Following</small></dt>
                     <dd><small>2134</small></dd>
@@ -31,16 +35,13 @@
         <div class="container">
             <h2 class="d-none">Bio</h2>
             <p class="lead text-center">
-                Ultricies mi eget mauris pharetra et ultrices! Quam pellentesque nec nam aliquam sem et tortor consequat
-                id
-                porta
-                nibh venenatis cras sed felis eget velit aliquet sagittis id consectetur purus.
+                {{ profile.profile.bio || '-' }}
             </p>
         </div>
     </div>
 
+<div class="container text-center">
+    <app-posts [posts]="profile.posts"></app-posts>
+</div>
 </div>
 
-<div class="container text-center">
-    <app-posts></app-posts>
-</div>
