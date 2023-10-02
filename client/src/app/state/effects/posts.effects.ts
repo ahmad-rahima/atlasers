@@ -17,6 +17,13 @@ export class PostsEffects {
     catchError((error) => of(PostsActions.failure(error))),
   ));
 
+  addPost$ = createEffect(() => this.actions$.pipe(
+    ofType(PostsActions.addPost),
+    switchMap((post) => this.postsService.addPost(post)),
+    map(data => PostsActions.postFetchedSuccess(data)),
+    catchError(error => of(PostsActions.failure(error))),
+  ));
+
   addComment$ = createEffect(() => this.actions$.pipe(
     ofType(PostsActions.addComment),
     tap(data => console.log('Comment: ', data)),

@@ -29,3 +29,11 @@ dd {
     gap: 2em;
     align-items: flex-end;
 }
+
+.posts-container {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+}

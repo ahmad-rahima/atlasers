@@ -1,11 +1,21 @@
 <div class="post">
+    <button class="btn btn-danger" type="button" (click)="onDelete()">x</button>
+    <button class="btn btn-secondary" type="button" (click)="onEdit()">edit</button>
     <ul class="list__tags mb-3">
         <li class="col list__tag"><a href="#"><small>tag 1</small></a></li>
         <li class="col list__tag"><a href="#"><small>tag 2</small></a></li>
     </ul>
-    <img src="" alt="some image" class="img-fluid" />
+    <img src="" alt="some image" class="img-fluid" [src]="'http://localhost:3000/' + post.file" />
     <p class="my-3">
         {{ post.content }}
     </p>
+    <div class="post-buttons input-group">
+        <button class="btn btn-love w-50" [ngClass]="loveBtnSelected ? 'btn-toggled' : ''" 
+        (click)="onLovePost()">
+            {{ post.loves }} Love
+        </button>
+        <button class="btn btn-secondary text-light w-50" type="button" (click)="onComment()">Comment</button>
+    </div>
+
     <app-comments [postId]="post._id" [comments]="post.comments"></app-comments>
 </div>

@@ -12,7 +12,7 @@ a {
     color: unset;
 }
 
-.post {
+.root {
     background-color: $gray;
     padding: 1em;
     border-radius: 1em;
@@ -38,13 +38,11 @@ a {
     background-color: white;
     color: $secondary;
 }
-            
-.btn-love.btn-toggled {
-    background-color: palevioletred;
-    color: white;
+
+.post-button-group {
+    display: flex;
 }
 
-.btn-love {
-    background-color: white;
-    color: palevioletred;
+.post-button-item {
+    width: 50%;
 }

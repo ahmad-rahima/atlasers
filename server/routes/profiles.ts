@@ -9,7 +9,7 @@ import Post from "../models/post.js";
 const router = Router();
 
 
-// TODO: add sort
+// TODO: add sort, comments
 router.get('/:id/posts', asyncHandler(async(req, res) => {
     console.log("User: ", req.user);
     console.log("Query: ", req.query);
@@ -18,13 +18,27 @@ router.get('/:id/posts', asyncHandler(async(req, res) => {
     const page = + req.query.page || 1;
     const pageSize = 2;
 
-
     const posts = await Post.find({ user: (req.user as any).id })
         .skip((page - 1) * pageSize)
         .limit(pageSize);
+
+    const postsSent = posts.map((post: any) => {
+        return {
+            _id: post.id,
+            user: post.user,
+            file: post.file,
+            content: post.content,
+            date: post.date,
+            loves: post.loves.length,
+            loved: !!post.loves.filter((id: string) => id.toString() === req.params.id).length,
+            comments: post.comments.slice(0, 2),
+        };
+    });
+    console.log(postsSent);
+
     res.json({
         message: `Fetched posts by user ${(req.user as any).username} successfully`,
-        posts
+        posts: postsSent,
     });
     return;
 }));

@@ -108,9 +108,11 @@ export interface Comment {
 export interface Post {
     _id?: string;
     user: User;
+    file: string;
     content: string;
     date: Date;
     loves: number;
+    loved?: boolean;
     comments: Comment[];
 }
 
@@ -154,4 +156,11 @@ export type PostIdUpdateResponse = PostsIdGetResponse;
 export interface PostIdDeleteResponse {
     id: string;
     message: string;
+}
+
+// POST /posts/:id/love
+export interface PostIdLoveResponse {
+    message: string,
+    id: string,
+    loves: number,
 }

@@ -1,0 +1,23 @@
+<div class="root">
+    <ul class="list__tags mb-3">
+        <li class="col list__tag"><a href="#"><small>tag 1</small></a></li>
+        <li class="col list__tag"><a href="#"><small>tag 2</small></a></li>
+    </ul>
+    <ul>
+        <li>
+            <button class="btn btn-primary" type="button" (click)="fileInput.click()">+ Image</button>
+            <input #fileInput type="file" style="visibility: hidden;" (change)="onFileInput($event)" />
+        </li>
+
+        <img class="img-fluid my-2" *ngIf="form.value.file" [src]="fileDataUrl" />
+
+    </ul>
+    <form [formGroup]="form" (submit)="onSubmit()">
+        <textarea class="my-3 form-control" formControlName="content"></textarea>
+
+        <div class="input-group post-button-group">
+            <button class="btn btn-success post-button-item">POST</button>
+            <a class="btn btn-danger post-button-item" routerLink="..">CANCEL</a>
+        </div>
+    </form>
+</div>

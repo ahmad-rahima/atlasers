@@ -16,6 +16,8 @@ export const postsReducer = createReducer(
     ({ ...state, loading: true })),
   on(PostsActions.deletePost, (state, _data) =>
     ({ ...state, loading: true })),
+  on(PostsActions.addPost, (state, _data) =>
+    ({ ...state, loading: true })),
   on(PostsActions.postDeletedSuccess, (state, { id }) =>
     PostsAdapter.removeOne(id, { ...state, error: '', loading: false })),
   on(PostsActions.postFetchedSuccess, (state, data) =>

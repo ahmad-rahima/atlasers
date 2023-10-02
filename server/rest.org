@@ -30,7 +30,7 @@ Content-Type: application/json
 ** DONE Filter TOKEN
 #+name: filter_token
 #+begin_src js :results output :var json="{}"
-console.log(JSON.parse(json).token)
+console.log(JSON.parse(json).accessToken)
 #+end_src
 
 #+RESULTS: filter_token
@@ -61,7 +61,7 @@ Content-Type: application/json
 #+end_src
 
 #+RESULTS[54112f04051b2511fe5176cf436107ebccf85157]: login
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTE0MjA1YmJlZTcxMjBmODk3ZjY3YzYiLCJpYXQiOjE2OTU4NTkxMjUsImV4cCI6MTY5NTg2MjcyNX0.3MWaQ-cv_qjlwLZSv48dLb-joduIV19Sp-uS0PJsfgo
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTE0MjA1YmJlZTcxMjBmODk3ZjY3YzYiLCJpYXQiOjE2OTYyMTQ4ODUsImV4cCI6MTY5NjIxODQ4NX0.BEETbR8zNS98_-OVjTXqnSPWf2saQ1--VcUtKWjK5mQ
 
 
 * DONE Posts
@@ -77,60 +77,29 @@ Authorization: Bearer :token
 {
   "posts": [
     {
-      "_id": "650fa594343585857911189d",
-      "id": "dummy",
-      "content": "New Another Content",
-      "userId": "dummyUser",
-      "__v": 0
-    },
-    {
-      "_id": "650fa7c4ff0b34b96b9b38ca",
-      "content": "new Content",
-      "userId": "dummyUser",
-      "__v": 0
-    },
-    {
-      "_id": "6514a7b3946c6ffb6b8d6ec5",
-      "content": "Add me as a POST!",
-      "userId": "dummyUser",
-      "__v": 0
-    },
-    {
-      "_id": "6514a8178f3daac780d1b312",
-      "content": "Add me as a POST!",
-      "userId": "6514205bbee7120f897f67c6",
-      "__v": 0
-    },
-    {
-      "_id": "6514a82f8f3daac780d1b319",
-      "content": "Add me as a POST!",
-      "userId": "6514205bbee7120f897f67c6",
-      "__v": 0
-    },
-    {
-      "_id": "6514c1c9268b3387ac9a132d",
-      "content": "Add me as a POST!",
-      "userId": "6514205bbee7120f897f67c6",
-      "__v": 0
-    },
-    {
-      "_id": "6514c1d3268b3387ac9a1330",
-      "content": "",
-      "userId": "6514205bbee7120f897f67c6",
+      "_id": "651957566242c22aeedc416c",
+      "user": "6514205bbee7120f897f67c6",
+      "file": "1696159574576-173808451-3.-Parametrizing-Pipes.mp4-00_00_11.120.jpg",
+      "content": "New Post with image",
+      "loves": [],
+      "date": "2023-10-01T11:26:14.692Z",
+      "comments": [],
       "__v": 0
     }
-  ]
+  ],
+  "message": "Posts fetched successfully"
 }
 // GET http://localhost:3000/posts
 // HTTP/1.1 200 OK
 // X-Powered-By: Express
+// Access-Control-Allow-Origin: http://localhost:4200
 // Content-Type: application/json; charset=utf-8
-// Content-Length: 721
-// ETag: W/"2d1-2g8pb5KXUxx7BKVc70y65yXY0kc"
-// Date: Thu, 28 Sep 2023 00:17:41 GMT
+// Content-Length: 295
+// ETag: W/"127-l0VxOWRYuHNXecyJqPOZPJYCd8g"
+// Date: Mon, 02 Oct 2023 02:50:01 GMT
 // Connection: keep-alive
 // Keep-Alive: timeout=5
-// Request duration: 0.347756s
+// Request duration: 0.054251s
 #+END_SRC
 
 ** DONE POST Post
@@ -361,27 +330,24 @@ Authorization: Bearer :token
   "message": "Fetched posts by user username successfully",
   "posts": [
     {
-      "_id": "6514a8178f3daac780d1b312",
-      "content": "Add me as a POST!",
-      "userId": "6514205bbee7120f897f67c6",
-      "__v": 0
-    },
-    {
-      "_id": "6514a82f8f3daac780d1b319",
-      "content": "Add me as a POST!",
-      "userId": "6514205bbee7120f897f67c6",
-      "__v": 0
+      "user": "6514205bbee7120f897f67c6",
+      "file": "1696159574576-173808451-3.-Parametrizing-Pipes.mp4-00_00_11.120.jpg",
+      "content": "New Post with image",
+      "date": "2023-10-01T11:26:14.692Z",
+      "loves": 0,
+      "comments": []
     }
   ]
 }
 // GET http://localhost:3000/profiles/6514205bbee7120f897f67c6/posts?page=1
 // HTTP/1.1 200 OK
 // X-Powered-By: Express
+// Access-Control-Allow-Origin: http://localhost:4200
 // Content-Type: application/json; charset=utf-8
-// Content-Length: 285
-// ETag: W/"11d-j9GgsNrRVAq13gk1egn0DrFtazU"
-// Date: Thu, 28 Sep 2023 00:51:45 GMT
+// Content-Length: 270
+// ETag: W/"10e-JCbZuniVSKiW3kgGOYK0+r61t4s"
+// Date: Mon, 02 Oct 2023 03:01:35 GMT
 // Connection: keep-alive
 // Keep-Alive: timeout=5
-// Request duration: 0.013160s
+// Request duration: 0.058977s
 #+END_SRC

@@ -1,5 +1,6 @@
 import { createActionGroup, props } from "@ngrx/store";
 import {
+  PostAddRequest,
   PostIdAddCommentRequest,
   PostIdAddCommentResponse,
   PostIdDeleteResponse,
@@ -11,6 +12,7 @@ import {
 export const PostsActions = createActionGroup({
   source: 'Posts',
   events: {
+    'Add Post': props<PostAddRequest | FormData>(),
     'Update Post': props<{ id: string, post: PostIdUpdateRequest }>(),
     'Delete Post': props<{ id: string }>(),
     'Get Post': props<{ id: string }>(),

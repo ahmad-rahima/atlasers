@@ -2,6 +2,8 @@
     <ul>
         <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
     </ul>
-    <input class="form-control comment-input" [(ngModel)]="commentHolder" />
-    <button class="btn" type="button" (click)="onComment()">&rangle;</button>
+    <div class="input-group my-3">
+        <input class="form-control comment-input" [(ngModel)]="commentHolder" />
+        <button class="btn btn-outline-secondary" type="button" (click)="onComment()">&rangle;</button>
+    </div>
 </div>
