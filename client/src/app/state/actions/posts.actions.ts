@@ -4,6 +4,7 @@ import {
   PostIdAddCommentRequest,
   PostIdAddCommentResponse,
   PostIdDeleteResponse,
+  PostIdLoveResponse,
   PostIdUpdateRequest,
   PostsIdGetResponse
 } from "src/app/dto";
@@ -12,13 +13,16 @@ import {
 export const PostsActions = createActionGroup({
   source: 'Posts',
   events: {
-    'Add Post': props<PostAddRequest | FormData>(),
-    'Update Post': props<{ id: string, post: PostIdUpdateRequest }>(),
-    'Delete Post': props<{ id: string }>(),
-    'Get Post': props<{ id: string }>(),
-
     'Add Comment': props<{ id: string, comment: PostIdAddCommentRequest }>(),
     'Comment Added Success': props<PostIdAddCommentResponse>(),
+
+    'Add Post': props<PostAddRequest | { fd: FormData }>(),
+    'Update Post': props<{ id: string, post: PostIdUpdateRequest }>(),
+    'Get Post': props<{ id: string }>(),
+    'Delete Post': props<{ id: string }>(),
+    'Love Post': props<{ id: string }>(),
+
+    'Post Loved Success': props<PostIdLoveResponse>(),
 
     'Post Fetched Success': props<PostsIdGetResponse>(),
     'Post Deleted Success': props<{ id: string }>(),

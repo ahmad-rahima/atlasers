@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { PostsActionsDispatcherService } from 'src/app/posts/posts-actions-dispatcher.service';
 import { PostsActions } from 'src/app/state/actions/posts.actions';
 
 interface File {
@@ -17,8 +16,8 @@ interface File {
 })
 export class PostFormComponent {
   private fb = inject(FormBuilder);
+  private store = inject(Store);
   private router = inject(Router);
-  private actionsDispatcher = inject(PostsActionsDispatcherService);
 
   form = this.fb.group({
     // tags: this.fb.array([]),
@@ -46,7 +45,7 @@ export class PostFormComponent {
       content: this.form.value.content || '',
     };
 
-    this.actionsDispatcher.addPost(value);
+    this.store.dispatch(PostsActions.addPost(value));
     this.router.navigate(['..']);
   }
 
@@ -56,6 +55,6 @@ export class PostFormComponent {
     fd.append('content', value.content as string);
     if (value.file)
       fd.append('file', value.file as any, (value.file as any).name);
-    this.actionsDispatcher.addPost({ fd });
+    this.store.dispatch(PostsActions.addPost({ fd }));
   }
 }

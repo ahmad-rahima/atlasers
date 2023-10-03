@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { PostsActions } from "../actions/posts.actions";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { PostsService } from "src/app/posts/posts.service";
+import { PostAddRequest } from "src/app/dto";
 
 
 @Injectable()
@@ -19,7 +20,7 @@ export class PostsEffects {
 
   addPost$ = createEffect(() => this.actions$.pipe(
     ofType(PostsActions.addPost),
-    switchMap((post) => this.postsService.addPost(post)),
+    switchMap((post) => this.postsService.addPost(post as PostAddRequest)),
     map(data => PostsActions.postFetchedSuccess(data)),
     catchError(error => of(PostsActions.failure(error))),
   ));
