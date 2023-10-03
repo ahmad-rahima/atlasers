@@ -2,6 +2,7 @@ import { createReducer, on } from "@ngrx/store";
 import { ProfileState } from "../profile.state";
 import { Profile, ProfilesAddRequest, ProfilesIdGetResponse } from "src/app/dto";
 import { ProfileActions } from "../actions/profile.actions";
+import { PostsActions } from "../actions/posts.actions";
 
 export const initialState: ProfileState = {
   profile: null as unknown as Profile,
@@ -55,17 +56,17 @@ export const profileReducers = createReducer(
     editPost: state.posts.filter(post => post._id === id),
   })),
 
-  on(ProfileActions.getPost, (state, _data) =>
+  on(PostsActions.getPost, (state, _data) =>
     ({ ...state, loading: true })),
-  on(ProfileActions.updatePost, (state, _data) =>
+  on(PostsActions.updatePost, (state, _data) =>
     ({ ...state, loading: true })),
-  on(ProfileActions.deletePost, (state, _data) =>
+  on(PostsActions.deletePost, (state, _data) =>
     ({ ...state, loading: true })),
-  on(ProfileActions.addPost, (state, _data) =>
+  on(PostsActions.addPost, (state, _data) =>
     ({ ...state, loading: true })),
-  on(ProfileActions.addComment, (state, _data) =>
+  on(PostsActions.addComment, (state, _data) =>
     ({ ...state, loading: true })),
-  on(ProfileActions.commentAddedSuccess, (state, data: any) => {
+  on(PostsActions.commentAddedSuccess, (state, data: any) => {
     const idx = state.posts.findIndex((post: any) => post._id === data.id);
     const post = {
       ...state.posts[idx],
@@ -79,13 +80,13 @@ export const profileReducers = createReducer(
       posts,
     };
   }),
-  on(ProfileActions.postDeletedSuccess, (state, { id }) => ({
+  on(PostsActions.postDeletedSuccess, (state, { id }) => ({
     ...state,
     error: '',
     loading: false,
     posts: state.posts.filter(post => post._id != id),
   })),
-  on(ProfileActions.postFetchedSuccess, (state, data) =>
+  on(PostsActions.postFetchedSuccess, (state, data) =>
     ({
       ...state,
       error: '',
@@ -94,11 +95,11 @@ export const profileReducers = createReducer(
       posts: [data.post, ...state.posts]
     })),
   
-  on(ProfileActions.lovePost, (state, data) => ({
+  on(PostsActions.lovePost, (state, data) => ({
     ...state,
     loading: true,
   })),
-  on(ProfileActions.postLovedSuccess, (state, data) => { 
+  on(PostsActions.postLovedSuccess, (state, data) => {
     const idx = state.posts.findIndex((post: any) => post._id === data.id);
     const post = {
       ...state.posts[idx],

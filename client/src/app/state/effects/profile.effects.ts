@@ -5,6 +5,7 @@ import { ProfileActions } from "../actions/profile.actions";
 import { ObservableInput, catchError, map, of, switchMap, tap } from "rxjs";
 import { ProfilesService } from "src/app/profiles/profiles.service";
 import { PostsService } from "src/app/posts/posts.service";
+import { PostsActions } from "../actions/posts.actions";
 
 
 @Injectable()
@@ -51,50 +52,50 @@ export class ProfileEffects {
   ));
 
   getPost$ = createEffect(() => this.actions$.pipe(
-    ofType(ProfileActions.getPost),
+    ofType(PostsActions.getPost),
     switchMap(({ id }) => this.postsService.getPost(id)),
-    map(data => ProfileActions.postFetchedSuccess(data)),
+    map(data => PostsActions.postFetchedSuccess(data)),
     catchError((error) => of(ProfileActions.failure(error))),
   ));
 
   addPost$ = createEffect(() => this.actions$.pipe(
-    ofType(ProfileActions.addPost),
+    ofType(PostsActions.addPost),
     tap(post => console.log('Post: ', post)),
     switchMap((post: any) => this.postsService.addPost((post.fd) || post)),
-    map(data => ProfileActions.postFetchedSuccess(data)),
+    map(data => PostsActions.postFetchedSuccess(data)),
     catchError(error => of(ProfileActions.failure(error))),
   ));
 
   addComment$ = createEffect(() => this.actions$.pipe(
-    ofType(ProfileActions.addComment),
+    ofType(PostsActions.addComment),
     tap(data => console.log('Comment: ', data)),
     switchMap(({ id, comment }) => this.postsService.addComment(id, comment)),
     tap(data => console.log('Comment: ', data)),
-    map(data => ProfileActions.commentAddedSuccess(data)),
+    map(data => PostsActions.commentAddedSuccess(data)),
     catchError((error) => of(ProfileActions.failure(error))),
   ));
 
   lovePost$ = createEffect(() => this.actions$.pipe(
-    ofType(ProfileActions.lovePost),
+    ofType(PostsActions.lovePost),
     tap(data => console.log("Lovin post, data: ", data)),
     switchMap(({ id }) => this.postsService.lovePost(id)),
     tap(data => console.log("Data after love: ", data)),
-    map((data: any) => ProfileActions.postLovedSuccess(data)),
-    catchError((error) => of(ProfileActions.failure)),
+    map((data: any) => PostsActions.postLovedSuccess(data)),
+    catchError((error) => of(ProfileActions.failure(error))),
   ));
 
   updatePost$ = createEffect(() => this.actions$.pipe(
-    ofType(ProfileActions.updatePost),
+    ofType(PostsActions.updatePost),
     switchMap(({ id, post }) => this.postsService.updatePost(id, post)),
-    map(data => ProfileActions.postFetchedSuccess(data)),
+    map(data => PostsActions.postFetchedSuccess(data)),
     catchError((error) => of(ProfileActions.failure(error))),
   ));
 
   deletePost$ = createEffect(() => this.actions$.pipe(
-    ofType(ProfileActions.deletePost),
+    ofType(PostsActions.deletePost),
     switchMap(({ id }) => this.postsService.deletePost(id)),
     tap(data => console.log("Post to filter out: ", data)),
-    map(data => ProfileActions.postDeletedSuccess(data)),
+    map(data => PostsActions.postDeletedSuccess(data)),
     catchError((error) => of(ProfileActions.failure(error))),
   ));
 
