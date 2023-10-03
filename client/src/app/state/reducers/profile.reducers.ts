@@ -3,11 +3,15 @@ import { ProfileState } from "../profile.state";
 import { Profile, ProfilesAddRequest, ProfilesIdGetResponse } from "src/app/dto";
 import { ProfileActions } from "../actions/profile.actions";
 import { PostsActions } from "../actions/posts.actions";
+import { PostsAdapter } from "../posts.state";
 
 export const initialState: ProfileState = {
   profile: null as unknown as Profile,
-  posts: [],
-  editPost: [],
+  posts: PostsAdapter.getInitialState({
+    loading: false,
+    error: '',
+  }),
+  editPost: null,
 
   loading: false,
   error: '',
@@ -43,17 +47,16 @@ export const profileReducers = createReducer(
     ...state,
     error: '',
     loading: false,
-    posts: [
-      ...state.posts,
-      ...data.posts,
-    ],
+    posts: PostsAdapter.addMany(data.posts, {
+      ...state.posts, loading: false, error: ''
+    }),
   })),
 
   on(ProfileActions.toggleEditPost, (state, { id }) => ({
     ...state,
     error: '',
     loading: false,
-    editPost: state.posts.filter(post => post._id === id),
+    editPost: state.posts.entities[id] || null,
   })),
 
   on(PostsActions.getPost, (state, _data) =>
@@ -67,50 +70,47 @@ export const profileReducers = createReducer(
   on(PostsActions.addComment, (state, _data) =>
     ({ ...state, loading: true })),
   on(PostsActions.commentAddedSuccess, (state, data: any) => {
-    const idx = state.posts.findIndex((post: any) => post._id === data.id);
-    const post = {
-      ...state.posts[idx],
-      comments: [data.comment, ...state.posts[idx].comments]
+    const post = state.posts.entities[data.id];
+    const changes = {
+      comments: [data.comment, ...(post ? post.comments : [])],
     };
-    const posts = [...state.posts.slice(0, idx), post, ...state.posts.slice(idx+1)];
     return {
       ...state,
       loading: false,
       error: '',
-      posts,
+      posts: PostsAdapter.updateOne({ id: data.id, changes }, state.posts),
     };
   }),
   on(PostsActions.postDeletedSuccess, (state, { id }) => ({
     ...state,
     error: '',
     loading: false,
-    posts: state.posts.filter(post => post._id != id),
+    posts: PostsAdapter.removeOne(id, state.posts),
   })),
   on(PostsActions.postFetchedSuccess, (state, data) =>
     ({
       ...state,
       error: '',
       loading: false,
-      editPost: [],
-      posts: [data.post, ...state.posts]
+      editPost: null,
+      posts: PostsAdapter.addOne(data.post, state.posts),
     })),
   
   on(PostsActions.lovePost, (state, data) => ({
     ...state,
     loading: true,
   })),
+
   on(PostsActions.postLovedSuccess, (state, data) => {
-    const idx = state.posts.findIndex((post: any) => post._id === data.id);
-    const post = {
-      ...state.posts[idx],
-      loves: state.posts[idx].loves,
-      loved: !state.posts[idx].loved,
-    };
-    const posts = [...state.posts.slice(0, idx), post, ...state.posts.slice(idx+1)];
+    const post = state.posts.entities[data.id];
+    const changes = {
+      loves: data.loves,
+      loved: !post?.loved,
+    }
     return {
       ...state,
       loading: false,
-      posts,
+      posts: PostsAdapter.updateOne({ id: data.id, changes }, state.posts),
     }
   }),
 );
