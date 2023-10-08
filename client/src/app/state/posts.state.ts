@@ -9,4 +9,5 @@ export const PostsAdapter: EntityAdapter<Post> = createEntityAdapter<Post>({
 export interface PostsState extends EntityState<Post> {
   loading: boolean;
   error: string;
+  finished: boolean;
 }

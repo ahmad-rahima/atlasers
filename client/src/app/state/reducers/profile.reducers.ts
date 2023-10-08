@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { ProfileState } from "../profile.state";
-import { Profile, ProfilesAddRequest, ProfilesIdGetResponse } from "src/app/dto";
+import { Profile, ProfilesIdGetResponse } from "src/app/dto";
 import { ProfileActions } from "../actions/profile.actions";
 import { PostsActions } from "../actions/posts.actions";
 import { PostsAdapter } from "../posts.state";
@@ -10,6 +10,7 @@ export const initialState: ProfileState = {
   posts: PostsAdapter.getInitialState({
     loading: false,
     error: '',
+    finished: false,
   }),
   editPost: null,
 
@@ -48,7 +49,10 @@ export const profileReducers = createReducer(
     error: '',
     loading: false,
     posts: PostsAdapter.addMany(data.posts, {
-      ...state.posts, loading: false, error: ''
+      ...state.posts,
+      loading: false,
+      error: '',
+      finished: data.posts.length === 0,
     }),
   })),
 

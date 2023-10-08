@@ -22,15 +22,15 @@ export class ProfilesService {
     return this.http.get<ProfilesIdGetResponse>(`${this.PROFILES_URL}/${id}`);
   }
 
-  public getProfilePostsById(id: string) {
-    return this.http.get<ProfilesIdGetPostsResponse>(`${this.PROFILES_URL}/${id}/posts`);
+  public getProfilePostsById(id: string, page: number) {
+    return this.http.get<ProfilesIdGetPostsResponse>(`${this.PROFILES_URL}/${id}/posts?page=${page}`);
   }
 
-  public addProfile(data: ProfilesAddRequest) {
+  public addProfile(data: ProfilesAddRequest | { fd: FormData }) {
     return this.http.post<ProfilesAddResponse>(`${this.PROFILES_URL}`, data);
   }
 
-  public updateProfileById(id: string, data: ProfilesIdUpdateRequest) {
+  public updateProfileById(id: string, data: ProfilesIdUpdateRequest | { fd: FormData }) {
     return this.http.put<ProfilesIdUpdateResponse>(`${this.PROFILES_URL}/${id}`, data);
   }
 

@@ -27,6 +27,9 @@ import { PostFormComponent } from './post-form/post-form.component';
     PostsModule,
     FormsModule,
     ReactiveFormsModule,
+  ],
+  providers: [
+    { provide: Window, useValue: window },
   ]
 })
 export class ProfilesModule { }

@@ -1,4 +1,4 @@
-<div *ngIf="authed; else add">
+<div *ngIf="(profiles$ | async)?.profile?.displayName; else add">
     <app-profile-form-update></app-profile-form-update>
 </div>
 

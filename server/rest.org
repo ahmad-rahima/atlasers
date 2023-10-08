@@ -52,7 +52,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTE0MjVmNjkzOWYwN2VkNWNmOGRkNTY
 
 ** DONE Login TOKEN
 #+name: login
-#+begin_src restclient :results value :post filter_token(json=*this*) :cache yes
+#+begin_src restclient :results replace value :post filter_token(json=*this*) :cache no
 POST http://localhost:3000/auth/login
 Content-Type: application/json
 
@@ -61,7 +61,9 @@ Content-Type: application/json
 #+end_src
 
 #+RESULTS[54112f04051b2511fe5176cf436107ebccf85157]: login
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTE0MjA1YmJlZTcxMjBmODk3ZjY3YzYiLCJpYXQiOjE2OTYyMTQ4ODUsImV4cCI6MTY5NjIxODQ4NX0.BEETbR8zNS98_-OVjTXqnSPWf2saQ1--VcUtKWjK5mQ
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFmNTE3OGFiZGI0ODI2ZmU5YWU5YmQiLCJpYXQiOjE2OTY3ODEzODgsImV4cCI6MTY5Njc4NDk4OH0.vUMdHOJA4ArzKup3sAloZxHTC3bsXnPsSgO4Om7BTf4
+
+
 
 
 * DONE Posts
@@ -71,36 +73,6 @@ GET http://localhost:3000/posts
 Authorization: Bearer :token
 
 #+end_src
-
-#+RESULTS:
-#+BEGIN_SRC js
-{
-  "posts": [
-    {
-      "_id": "651957566242c22aeedc416c",
-      "user": "6514205bbee7120f897f67c6",
-      "file": "1696159574576-173808451-3.-Parametrizing-Pipes.mp4-00_00_11.120.jpg",
-      "content": "New Post with image",
-      "loves": [],
-      "date": "2023-10-01T11:26:14.692Z",
-      "comments": [],
-      "__v": 0
-    }
-  ],
-  "message": "Posts fetched successfully"
-}
-// GET http://localhost:3000/posts
-// HTTP/1.1 200 OK
-// X-Powered-By: Express
-// Access-Control-Allow-Origin: http://localhost:4200
-// Content-Type: application/json; charset=utf-8
-// Content-Length: 295
-// ETag: W/"127-l0VxOWRYuHNXecyJqPOZPJYCd8g"
-// Date: Mon, 02 Oct 2023 02:50:01 GMT
-// Connection: keep-alive
-// Keep-Alive: timeout=5
-// Request duration: 0.054251s
-#+END_SRC
 
 ** DONE POST Post
 #+begin_src restclient :var token=login()
@@ -192,51 +164,83 @@ Authorization: Bearer :token
 
 #+RESULTS:
 #+BEGIN_SRC js
-[
-  {
-    "_id": "6511e85c45b1d7d0fc291275",
-    "bio": "My Bio",
-    "__v": 0
-  },
-  {
-    "_id": "6511ea492228d1aa77777065",
-    "bio": "My another bio",
-    "__v": 0
-  }
-]
+{
+  "message": "Fetched all profiles successfully",
+  "profiles": [
+    {
+      "_id": "6511e85c45b1d7d0fc291275",
+      "bio": "My Bio",
+      "__v": 0,
+      "joined": "2023-10-04T14:36:00.880Z",
+      "picturePath": "profile-pictures/undefined",
+      "id": "6511e85c45b1d7d0fc291275"
+    },
+    {
+      "_id": "6511ea492228d1aa77777065",
+      "bio": "My another bio",
+      "__v": 0,
+      "joined": "2023-10-04T14:36:00.880Z",
+      "picturePath": "profile-pictures/undefined",
+      "id": "6511ea492228d1aa77777065"
+    },
+    {
+      "_id": "6514205bbee7120f897f67c6",
+      "bio": "bio",
+      "__v": 0,
+      "gender": "gender",
+      "picture": "1696332082862-4139225-indexed.png",
+      "joined": "2023-10-04T14:36:00.881Z",
+      "picturePath": "profile-pictures/1696388580277-333835575-indexed.png",
+      "id": "6514205bbee7120f897f67c6"
+    }
+  ]
+}
 // GET http://localhost:3000/profiles
 // HTTP/1.1 200 OK
 // X-Powered-By: Express
+// Access-Control-Allow-Origin: http://localhost:4200
 // Content-Type: application/json; charset=utf-8
-// Content-Length: 125
-// ETag: W/"7d-5dhBmjEeBeSAw01jI0uKptqQxFU"
-// Date: Wed, 27 Sep 2023 22:47:15 GMT
+// Content-Length: 662
+// ETag: W/"296-HOd0Eb+M1q1En8Tdv0E0tCWWqgg"
+// Date: Wed, 04 Oct 2023 14:36:00 GMT
 // Connection: keep-alive
 // Keep-Alive: timeout=5
-// Request duration: 0.199882s
+// Request duration: 0.179456s
 #+END_SRC
 ** DONE GET Profile
 #+begin_src restclient :var token=login()
-GET http://localhost:3000/profiles/6514205bbee7120f897f67c6
+GET http://localhost:3000/profiles/651f5178abdb4826fe9ae9bd
 Authorization: Bearer :token
 #+end_src
 
 #+RESULTS:
 #+BEGIN_SRC js
 {
-  "message": "User does not have a profile!",
-  "profile": null
+  "message": "Fetched users successfully",
+  "profile": {
+    "_id": "651f5178abdb4826fe9ae9bd",
+    "bio": "A very new Bio!",
+    "joined": "2023-10-07T14:57:29.355Z",
+    "gender": "Male",
+    "__v": 0,
+    "picturePath": "profile-pictures/undefined",
+    "user": {
+      "_id": "651f5178abdb4826fe9ae9bd"
+    },
+    "id": "651f5178abdb4826fe9ae9bd"
+  }
 }
-// GET http://localhost:3000/profiles/6514205bbee7120f897f67c6
+// GET http://localhost:3000/profiles/651f5178abdb4826fe9ae9bd
 // HTTP/1.1 200 OK
 // X-Powered-By: Express
+// Access-Control-Allow-Origin: http://localhost:4200
 // Content-Type: application/json; charset=utf-8
-// Content-Length: 58
-// ETag: W/"3a-zcaP4wqNWay9KL+Z0MUoTxZtlGU"
-// Date: Wed, 27 Sep 2023 23:01:22 GMT
+// Content-Length: 286
+// ETag: W/"11e-8QbY+u+KB/5K560nfuxHsRybNfc"
+// Date: Sat, 07 Oct 2023 14:58:54 GMT
 // Connection: keep-alive
 // Keep-Alive: timeout=5
-// Request duration: 0.017604s
+// Request duration: 0.013276s
 #+END_SRC
 
 ** DONE POST Profile
@@ -253,21 +257,25 @@ Content-Type: application/json
 {
   "message": "Added user successfully",
   "profile": {
-    "_id": "6514205bbee7120f897f67c6",
+    "_id": "651f5178abdb4826fe9ae9bd",
     "bio": "New Bio",
-    "__v": 0
+    "joined": "2023-10-07T14:25:05.141Z",
+    "__v": 0,
+    "picturePath": "profile-pictures/undefined",
+    "id": "651f5178abdb4826fe9ae9bd"
   }
 }
 // POST http://localhost:3000/profiles
 // HTTP/1.1 200 OK
 // X-Powered-By: Express
+// Access-Control-Allow-Origin: http://localhost:4200
 // Content-Type: application/json; charset=utf-8
-// Content-Length: 106
-// ETag: W/"6a-nv/kc1Jk/HCV+9bQZ+aLCTNsGlM"
-// Date: Wed, 27 Sep 2023 22:52:46 GMT
+// Content-Length: 217
+// ETag: W/"d9-VCDub8/IRNy9DuUm02cYXXqjg7w"
+// Date: Sat, 07 Oct 2023 14:25:05 GMT
 // Connection: keep-alive
 // Keep-Alive: timeout=5
-// Request duration: 0.047640s
+// Request duration: 0.014095s
 #+END_SRC
 
 ** DONE PUT Profile
@@ -287,18 +295,59 @@ Authorization: Bearer :token
 // PUT http://localhost:3000/profiles/6514205bbee7120f897f67c6
 // HTTP/1.1 200 OK
 // X-Powered-By: Express
+// Access-Control-Allow-Origin: http://localhost:4200
 // Content-Type: application/json; charset=utf-8
 // Content-Length: 43
 // ETag: W/"2b-A05tMyf+qpI4PXGZesmKc/vyG9U"
-// Date: Wed, 27 Sep 2023 23:05:03 GMT
+// Date: Sat, 07 Oct 2023 14:24:51 GMT
 // Connection: keep-alive
 // Keep-Alive: timeout=5
-// Request duration: 0.020689s
+// Request duration: 0.077765s
+#+END_SRC
+
+** TODO PUT Profile FormData
+#+begin_src restclient :var token=login()
+PUT http://localhost:3000/profiles/6514205bbee7120f897f67c6
+Authorization: Bearer :token
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="bio"
+
+Bio
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Error: Unexpected end of form<br> &nbsp; &nbsp;at Multipart._final (/home/adr/devel/Web/atlas/server/node_modules/busboy/lib/types/multipart.js:588:17)<br> &nbsp; &nbsp;at callFinal (node:internal/streams/writable:698:12)<br> &nbsp; &nbsp;at prefinish (node:internal/streams/writable:710:7)<br> &nbsp; &nbsp;at finishMaybe (node:internal/streams/writable:720:5)<br> &nbsp; &nbsp;at Multipart.Writable.end (node:internal/streams/writable:634:5)<br> &nbsp; &nbsp;at IncomingMessage.onend (node:internal/streams/readable:716:10)<br> &nbsp; &nbsp;at Object.onceWrapper (node:events:631:28)<br> &nbsp; &nbsp;at IncomingMessage.emit (node:events:517:28)<br> &nbsp; &nbsp;at IncomingMessage.emit (node:domain:489:12)<br> &nbsp; &nbsp;at endReadableNT (node:internal/streams/readable:1368:12)</pre>
+</body>
+</html>
+
+<!-- PUT http://localhost:3000/profiles/6514205bbee7120f897f67c6 -->
+<!-- HTTP/1.1 500 Internal Server Error -->
+<!-- X-Powered-By: Express -->
+<!-- Access-Control-Allow-Origin: http://localhost:4200 -->
+<!-- Content-Security-Policy: default-src 'self' -->
+<!-- X-Content-Type-Options: nosniff -->
+<!-- Content-Type: text/html; charset=utf-8 -->
+<!-- Content-Length: 911 -->
+<!-- Date: Sat, 07 Oct 2023 09:26:52 GMT -->
+<!-- Connection: keep-alive -->
+<!-- Keep-Alive: timeout=5 -->
+<!-- Request duration: 0.010167s -->
 #+END_SRC
 
 ** DONE DELETE Profile
 #+begin_src restclient :var token=login()
-DELETE http://localhost:3000/profiles/6514205bbee7120f897f67c6
+DELETE http://localhost:3000/profiles/651f5178abdb4826fe9ae9bd
 Authorization: Bearer :token
 #+end_src
 
@@ -307,16 +356,17 @@ Authorization: Bearer :token
 {
   "message": "Profile deleted successfully"
 }
-// DELETE http://localhost:3000/profiles/6514205bbee7120f897f67c6
+// DELETE http://localhost:3000/profiles/651f5178abdb4826fe9ae9bd
 // HTTP/1.1 200 OK
 // X-Powered-By: Express
+// Access-Control-Allow-Origin: http://localhost:4200
 // Content-Type: application/json; charset=utf-8
 // Content-Length: 42
 // ETag: W/"2a-TkGcC/0+lkh26Mo7bHbw30135PA"
-// Date: Wed, 27 Sep 2023 23:00:45 GMT
+// Date: Sun, 08 Oct 2023 00:14:29 GMT
 // Connection: keep-alive
 // Keep-Alive: timeout=5
-// Request duration: 0.014579s
+// Request duration: 0.204297s
 #+END_SRC
 ** DONE GET Profile Posts
 #+begin_src restclient :var token=login()
@@ -330,11 +380,12 @@ Authorization: Bearer :token
   "message": "Fetched posts by user username successfully",
   "posts": [
     {
+      "_id": "651cebf863f88153e10873e2",
       "user": "6514205bbee7120f897f67c6",
-      "file": "1696159574576-173808451-3.-Parametrizing-Pipes.mp4-00_00_11.120.jpg",
-      "content": "New Post with image",
-      "date": "2023-10-01T11:26:14.692Z",
+      "content": "HI",
+      "date": "2023-10-04T04:37:12.511Z",
       "loves": 0,
+      "loved": false,
       "comments": []
     }
   ]
@@ -344,10 +395,184 @@ Authorization: Bearer :token
 // X-Powered-By: Express
 // Access-Control-Allow-Origin: http://localhost:4200
 // Content-Type: application/json; charset=utf-8
-// Content-Length: 270
-// ETag: W/"10e-JCbZuniVSKiW3kgGOYK0+r61t4s"
-// Date: Mon, 02 Oct 2023 03:01:35 GMT
+// Content-Length: 223
+// ETag: W/"df-YYNLJJCjpehOpQT4+CdJ0k+c6Lc"
+// Date: Wed, 04 Oct 2023 14:35:46 GMT
 // Connection: keep-alive
 // Keep-Alive: timeout=5
-// Request duration: 0.058977s
+// Request duration: 0.276937s
+#+END_SRC
+** DONE Follow Profile
+#+begin_src restclient :var token=login()
+POST http://localhost:3000/profiles/follow/6511ea492228d1aa77777065
+Authorization: Bearer :token
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "{\n  _id: new ObjectId(\"6514205bbee7120f897f67c6\"),\n  bio: 'bio',\n  __v: 0,\n  gender: 'gender',\n  picture: '1696332082862-4139225-indexed.png',\n  pictureFilename: '1696388580277-333835575-indexed.png',\n  joined: 2023-10-04T14:40:38.859Z\n} is following {\n  _id: new ObjectId(\"6511ea492228d1aa77777065\"),\n  bio: 'My another bio',\n  __v: 0,\n  joined: 2023-10-04T14:40:38.862Z\n} successfully.",
+  "assoc": {
+    "follower": {
+      "_id": "6514205bbee7120f897f67c6",
+      "bio": "bio",
+      "__v": 0,
+      "gender": "gender",
+      "picture": "1696332082862-4139225-indexed.png",
+      "joined": "2023-10-04T14:40:38.859Z",
+      "picturePath": "profile-pictures/1696388580277-333835575-indexed.png",
+      "id": "6514205bbee7120f897f67c6"
+    },
+    "following": {
+      "_id": "6511ea492228d1aa77777065",
+      "bio": "My another bio",
+      "__v": 0,
+      "joined": "2023-10-04T14:40:38.862Z",
+      "picturePath": "profile-pictures/undefined",
+      "id": "6511ea492228d1aa77777065"
+    },
+    "_id": "651d7966589d1d251e981512",
+    "__v": 0
+  }
+}
+// POST http://localhost:3000/profiles/follow/6511ea492228d1aa77777065
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Access-Control-Allow-Origin: http://localhost:4200
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 925
+// ETag: W/"39d-p4uWVTxC3YcZ8RuBikyMOr80Cq8"
+// Date: Wed, 04 Oct 2023 14:40:38 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.071087s
+#+END_SRC
+
+** DONE Get Profile Followers
+#+begin_src restclient :var token=login()
+GET http://localhost:3000/profiles/followers
+Authorization: Bearer :token
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Fetching the followers of 6514205bbee7120f897f67c6 successfully",
+  "followers": [
+    {
+      "_id": "651d7928d3dabad2b41443be",
+      "follower": "6514205bbee7120f897f67c6",
+      "following": {
+        "_id": "6514205bbee7120f897f67c6",
+        "bio": "bio",
+        "__v": 0,
+        "gender": "gender",
+        "picture": "1696332082862-4139225-indexed.png",
+        "joined": "2023-10-04T14:48:48.586Z",
+        "picturePath": "profile-pictures/1696388580277-333835575-indexed.png",
+        "id": "6514205bbee7120f897f67c6"
+      },
+      "__v": 0
+    },
+    {
+      "_id": "651d7966589d1d251e981512",
+      "follower": "6514205bbee7120f897f67c6",
+      "following": {
+        "_id": "6511ea492228d1aa77777065",
+        "bio": "My another bio",
+        "__v": 0,
+        "joined": "2023-10-04T14:48:48.585Z",
+        "picturePath": "profile-pictures/undefined",
+        "id": "6511ea492228d1aa77777065"
+      },
+      "__v": 0
+    }
+  ]
+}
+// GET http://localhost:3000/profiles/followers
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Access-Control-Allow-Origin: http://localhost:4200
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 710
+// ETag: W/"2c6-n52JVlMsxbnRaXY9+2PHhCy4p58"
+// Date: Wed, 04 Oct 2023 14:48:48 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.036431s
+#+END_SRC
+
+** DONE Get Profile Followings
+#+begin_src restclient :var token=login()
+GET http://localhost:3000/profiles/followings
+Authorization: Bearer :token
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "message": "Fetching the followers of 6514205bbee7120f897f67c6 successfully",
+  "followings": [
+    {
+      "_id": "651d7928d3dabad2b41443be",
+      "follower": {
+        "_id": "6514205bbee7120f897f67c6",
+        "bio": "bio",
+        "__v": 0,
+        "gender": "gender",
+        "picture": "1696332082862-4139225-indexed.png",
+        "joined": "2023-10-05T00:42:46.306Z",
+        "picturePath": "profile-pictures/1696388580277-333835575-indexed.png",
+        "id": "6514205bbee7120f897f67c6"
+      },
+      "following": "6514205bbee7120f897f67c6",
+      "__v": 0
+    }
+  ]
+}
+// GET http://localhost:3000/profiles/followings
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Access-Control-Allow-Origin: http://localhost:4200
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 441
+// ETag: W/"1b9-EhU+VEofOpuVq3e7+XnGrNhRxOg"
+// Date: Thu, 05 Oct 2023 00:42:46 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.291357s
+#+END_SRC
+** DONE Get Profile Followings Post
+#+begin_src restclient :var token=login()
+GET http://localhost:3000/posts/followings
+Authorization: Bearer :token
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "posts": [
+    {
+      "_id": "651cebf863f88153e10873e2",
+      "user": "6514205bbee7120f897f67c6",
+      "content": "HI",
+      "loves": [],
+      "date": "2023-10-04T04:37:12.511Z",
+      "comments": [],
+      "__v": 0
+    }
+  ],
+  "message": "Got posts of the followed profiles successfully"
+}
+// GET http://localhost:3000/posts/followings
+// HTTP/1.1 200 OK
+// X-Powered-By: Express
+// Access-Control-Allow-Origin: http://localhost:4200
+// Content-Type: application/json; charset=utf-8
+// Content-Length: 222
+// ETag: W/"de-KAoHM/CHeAocjolnvQEtWL2Lvvk"
+// Date: Thu, 05 Oct 2023 00:43:56 GMT
+// Connection: keep-alive
+// Keep-Alive: timeout=5
+// Request duration: 0.060104s
 #+END_SRC

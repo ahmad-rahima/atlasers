@@ -1,6 +1,13 @@
 <div class="root container">
     <form #form="ngForm" (ngSubmit)="onSubmit(form)">
         <div class="mb-3">
+            <button class="btn btn-primary" type="button" (click)="fileInput.click()">+ Image</button>
+            <input #fileInput type="file" style="visibility: hidden;" (change)="onFileInput($event)" />
+
+            <img class="img-fluid my-2" *ngIf="file" [src]="'http://localhost:3000/' + fileDataUrl" />
+        </div>
+
+        <div class="mb-3">
             <label for="displayName" class="form-label">Display Name:</label>
             <input ngModel="displayName" name="displayName" class="form-control" id="displayName">
         </div>

@@ -6,6 +6,7 @@ import {
   PostIdDeleteResponse,
   PostIdLoveResponse,
   PostIdUpdateRequest,
+  PostsGetResponse,
   PostsIdGetResponse
 } from "src/app/dto";
 
@@ -21,6 +22,9 @@ export const PostsActions = createActionGroup({
     'Get Post': props<{ id: string }>(),
     'Delete Post': props<{ id: string }>(),
     'Love Post': props<{ id: string }>(),
+
+    'Get Posts': props<{ page: number }>(),
+    'Get Posts Success': props<PostsGetResponse>(),
 
     'Post Loved Success': props<PostIdLoveResponse>(),
 

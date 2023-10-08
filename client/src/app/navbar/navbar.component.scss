@@ -6,6 +6,90 @@
     padding: 4px 0;
 }
 
+.nav__others {
+    width: 100%;
+}
+
+.nav__routes {
+    margin: 1em 0;
+}
+
 .navbar__item {
+    width: 100%;
+    text-align: center;
+    border: 1px solid white;
+    background-color: $gray;
+    color: white;
+}
+
+.settings-icon {
+    fill: white;
+    width: 24px;
+    height: 24px;
+
+    transition: rotate .5s;
+}
+
+.navbar__item__settings:after {
+    padding-left: 4px;
+    content: "Settings";
+}
+
+.settings-icon:hover {
+    rotate: 360deg;
+}
+
+
+.nav__routes,
+.nav__settings,
+.nav__others,
+.nav__hero {
+    width: 100%;
+}
+
+@media (min-width: 500px) {
+    .nav__routes,
+    .nav__settings,
+    .nav__others,
+    .nav__hero {
+        width: fit-content;
+    }
+
+    .navbar {
+        justify-content: flex-start;
+    }
+
+    .nav__others {
+        flex-grow: 1;
+        display: flex;
+    }
+
+    .nav__routes {
+        margin: 0 auto;
+    }
+
+    .nav__routes,
+    .nav__settings {
+        flex-direction: row;
+    }
+
+    .navbar__item__settings:after {
+        padding-left: inherit;
+        content: "";
+    }
+
+    .navbar__item {
+        width: auto;
+        text-align: initial;
+        border: 0;
+        background-color: inherit;
+    }
+
+    .nav__btn {
+        display: none;
+    }
+}
+
+.navbar__item > a {
     color: white;
 }

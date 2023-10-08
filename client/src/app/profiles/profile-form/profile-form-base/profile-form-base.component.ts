@@ -14,8 +14,24 @@ export class ProfileFormBaseComponent {
   protected method!: string;
   protected profilesService = inject(ProfilesService);
 
-  private store = inject(Store);
+  protected store = inject(Store);
   protected auth$ = this.store.select(selectAuth) as Observable<AuthState>;
+
+  fileDataUrl = '';
+  file: any = null;
+
+  onFileInput(event: any) {
+    console.log(event.target.files);
+
+    let fr = new FileReader();
+    fr.onload = (_data) => {
+      console.log(fr.result);
+      this.fileDataUrl = fr.result as string;
+    }
+    fr.readAsDataURL(event.target.files[0]);
+
+    this.file = event.target.files[0];
+  }
 
   onSubmit(form: NgForm) {}
 }

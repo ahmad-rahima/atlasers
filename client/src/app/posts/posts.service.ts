@@ -8,9 +8,13 @@ import {
   PostIdLoveResponse,
   PostIdUpdateRequest,
   PostIdUpdateResponse,
+  PostsGetResponse,
   PostsIdGetResponse
 } from "../dto";
 import { HttpClient } from '@angular/common/http';
+import { selectProfilePosts } from "../state/selectors/profile.selectors";
+import { selectPosts, selectPostsPosts } from "../state/selectors/posts.selectors";
+import { Router } from "@angular/router";
 
 
 @Injectable({
@@ -19,7 +23,16 @@ import { HttpClient } from '@angular/common/http';
 export class PostsService {
   private POSTS_URL = 'http://localhost:3000/posts';
   private http = inject(HttpClient);
+  private router = inject(Router);
   public postFormHolder: string = '';
+
+  getPostsStoreSelector(): any {
+    return this.router.url === '/profiles' ? selectProfilePosts : selectPostsPosts;
+  }
+
+  getPosts(page: number) {
+    return this.http.get<PostsGetResponse>(`${this.POSTS_URL}/?page=${page}`);
+  }
 
   addComment(id: string, data: PostIdAddCommentRequest) {
     return this.http.post<PostIdAddCommentResponse>(`${this.POSTS_URL}/${id}/comments`, data);

@@ -7,6 +7,7 @@ import { PostComponent } from './post/post.component';
 import { CommentsComponent } from './post/comments/comments.component';
 import { CommentComponent } from './post/comments/comment/comment.component';
 import { FormsModule } from '@angular/forms';
+import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     PostsRoutingModule,
     FormsModule,
+    NgbModule,
   ]
 })
 export class PostsModule { }

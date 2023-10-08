@@ -40,15 +40,6 @@ export class PostFormComponent {
     this.form.patchValue({ file: event.target.files[0] });
   }
 
-  onSubmit_() {
-    const value = {
-      content: this.form.value.content || '',
-    };
-
-    this.store.dispatch(PostsActions.addPost(value));
-    this.router.navigate(['..']);
-  }
-
   onSubmit() {
     const { value } = this.form;
     const fd = new FormData();
@@ -56,5 +47,7 @@ export class PostFormComponent {
     if (value.file)
       fd.append('file', value.file as any, (value.file as any).name);
     this.store.dispatch(PostsActions.addPost({ fd }));
+
+    this.router.navigate(['..']);
   }
 }

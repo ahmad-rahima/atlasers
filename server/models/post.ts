@@ -1,9 +1,10 @@
 import { Schema, model } from "mongoose";
+import Profile from './profile.js';
 
 
 // TODO add files
 const postSchema = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', populateTo: 'user', required: true },
     file: { type: String },
     content: { type: String, required: true, minLength: 1, maxLength: 4096 },
     date: { type: Date, default: Date.now, required: true },
@@ -14,5 +15,6 @@ const postSchema = new Schema({
     }],
 });
 
+postSchema.set('toJSON', { virtuals: true });
 
 export default model('Post', postSchema);

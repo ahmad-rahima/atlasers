@@ -11,6 +11,13 @@ export class PostsEffects {
   private actions$ = inject(Actions);
   private postsService = inject(PostsService);
 
+  getPosts$ = createEffect(() => this.actions$.pipe(
+    ofType(PostsActions.getPosts),
+    switchMap(({ page }) => this.postsService.getPosts(page)),
+    map((data) => PostsActions.getPostsSuccess(data)),
+    catchError(error => of(PostsActions.failure({ error }))),
+  ));
+
   getPost$ = createEffect(() => this.actions$.pipe(
     ofType(PostsActions.getPost),
     switchMap(({ id }) => this.postsService.getPost(id)),
@@ -20,17 +27,25 @@ export class PostsEffects {
 
   addPost$ = createEffect(() => this.actions$.pipe(
     ofType(PostsActions.addPost),
-    switchMap((post) => this.postsService.addPost(post as PostAddRequest)),
+    switchMap((post: any) => this.postsService.addPost((post.fd) || post)),
     map(data => PostsActions.postFetchedSuccess(data)),
     catchError(error => of(PostsActions.failure(error))),
   ));
 
   addComment$ = createEffect(() => this.actions$.pipe(
     ofType(PostsActions.addComment),
-    tap(data => console.log('Comment: ', data)),
     switchMap(({ id, comment }) => this.postsService.addComment(id, comment)),
     tap(data => console.log('Comment: ', data)),
     map(data => PostsActions.commentAddedSuccess(data)),
+    catchError((error) => of(PostsActions.failure(error))),
+  ));
+
+  lovePost$ = createEffect(() => this.actions$.pipe(
+    ofType(PostsActions.lovePost),
+    tap(data => console.log("Lovin post, data: ", data)),
+    switchMap(({ id }) => this.postsService.lovePost(id)),
+    tap(data => console.log("Data after love: ", data)),
+    map((data: any) => PostsActions.postLovedSuccess(data)),
     catchError((error) => of(PostsActions.failure(error))),
   ));
 
@@ -44,6 +59,7 @@ export class PostsEffects {
   deletePost$ = createEffect(() => this.actions$.pipe(
     ofType(PostsActions.deletePost),
     switchMap(({ id }) => this.postsService.deletePost(id)),
+    tap(data => console.log("Post to filter out: ", data)),
     map(data => PostsActions.postDeletedSuccess(data)),
     catchError((error) => of(PostsActions.failure(error))),
   ));

@@ -7,6 +7,7 @@ import { LoginResponse } from "src/app/dto";
 
 const initialState: AuthState = {
   userId: '',
+  username: 'GUEST',
   expiresIn: Date.now(),
 
   accessToken: '',
@@ -28,7 +29,11 @@ export const authReducer = createReducer(
   initialState,
 
   /* log in */
-  on(AuthActions.logIn, (state, _) => ({ ...state, loading: true })),
+  on(AuthActions.logIn, (state, data) => ({
+    ...state,
+    username: data.username,
+    loading: true
+  })),
 
   on(AuthActions.authenticated, (state, data: LoginResponse) => {
     const { userId, expiresIn } = process(data);
@@ -69,5 +74,9 @@ export const authReducer = createReducer(
   })),
 
   /* register */
-  on(AuthActions.register, (state, _) => ({ ...state, loading: true })),
+  on(AuthActions.register, (state, data) => ({
+    ...state,
+    username: data.username,
+    loading: true
+  })),
 );

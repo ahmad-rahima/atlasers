@@ -18,10 +18,44 @@ export const postsReducer = createReducer(
     ({ ...state, loading: true })),
   on(PostsActions.addPost, (state, _data) =>
     ({ ...state, loading: true })),
+  on(PostsActions.lovePost, (state, _data) =>
+    ({...state, loading: true })),
+  on(PostsActions.addComment, (state, _data) =>
+    ({ ...state, loading: true })),
+
   on(PostsActions.postDeletedSuccess, (state, { id }) =>
     PostsAdapter.removeOne(id, { ...state, error: '', loading: false })),
   on(PostsActions.postFetchedSuccess, (state, data) =>
     PostsAdapter.addOne(data.post, { ...state, error: '', loading: false })),
   on(PostsActions.failure, (state, data) =>
     ({ ...state, error: data.error })),
+  on(PostsActions.getPostsSuccess, (state, data) =>
+    PostsAdapter.addMany(data.posts, {
+      ...state,
+      error: '',
+      loading: false,
+    })),
+  on(PostsActions.commentAddedSuccess, (state, data: any) => {
+    const post = state.entities[data.id];
+    const changes = {
+      comments: [data.comment, ...(post ? post.comments : [])],
+    };
+    return PostsAdapter.updateOne({ id: data.id, changes }, {
+        ...state,
+        loading: false,
+        error: '',
+    });
+  }),
+
+  on(PostsActions.postLovedSuccess, (state, data) => {
+    const post = state.entities[data.id];
+    const changes = {
+      loves: data.loves,
+      loved: !post?.loved,
+    };
+    return PostsAdapter.updateOne({ id: data.id, changes }, {
+      ...state,
+      loading: false,
+    });
+  }),
 );

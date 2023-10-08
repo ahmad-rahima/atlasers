@@ -22,8 +22,8 @@ a {
 .list__tags {
     display: flex;
     justify-content: flex-start;
+    align-items: flex-start;
     gap: .5em;
-    width: max-content;
 }
 
 .list__tag {
@@ -47,4 +47,8 @@ a {
 .btn-love {
     background-color: white;
     color: palevioletred;
+}
+
+.profile-img {
+    width: 5em;
 }

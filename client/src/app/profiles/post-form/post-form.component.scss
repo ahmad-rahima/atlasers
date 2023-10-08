@@ -46,3 +46,21 @@ a {
 .post-button-item {
     width: 50%;
 }
+
+@keyframes growAnimation {
+    0% {
+        max-height: 0;
+    }
+
+    100% {
+        max-height: 100vh;
+    }
+}
+
+
+.root {
+    animation-name: growAnimation;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    overflow: hidden;
+}

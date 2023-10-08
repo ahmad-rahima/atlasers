@@ -1,16 +1,31 @@
 <div class="post">
-    <button class="btn btn-danger" type="button" (click)="onDelete()">x</button>
-    <button class="btn btn-secondary" type="button" (click)="onEdit()">edit</button>
+
     <ul class="list__tags mb-3">
-        <li class="col list__tag"><a href="#"><small>tag 1</small></a></li>
-        <li class="col list__tag"><a href="#"><small>tag 2</small></a></li>
+        <div class="profile-img">
+            <img [src]="'http://localhost:3000/' + post.profilePicPath" alt="user pic" class="img-fluid img-rounded" />
+        </div>
+        <li class="tls-col list__tag"><a href="#"><small>tag 1</small></a></li>
+        <li class="tls-col list__tag"><a href="#"><small>tag 2</small></a></li>
+        <li style="margin-left: auto;">
+            <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+                <button type="button" class="btn btn-default me-2" id="postSettings" ngbDropdownAnchor
+                    (focus)="myDrop.open()">
+                    <!-- &DownArrow; -->
+                </button>
+                <div ngbDropdownMenu aria-labelledby="postSettings">
+                    <button ngbDropdownItem (click)="onEdit()">Edit</button>
+                    <button ngbDropdownItem (click)="onDelete()">Delete</button>
+                </div>
+            </div>
+        </li>
     </ul>
+
     <img src="" alt="some image" class="img-fluid" [src]="'http://localhost:3000/' + post.file" />
     <p class="my-3">
         {{ post.content }}
     </p>
     <div class="post-buttons input-group">
-        <button class="btn btn-love w-50" [ngClass]="loveBtnSelected ? 'btn-toggled' : ''" 
+        <button class="btn btn-primary btn-love w-50" [ngClass]="loveBtnSelected ? 'btn-toggled' : ''"
         (click)="onLovePost()">
             {{ post.loves }} Love
         </button>

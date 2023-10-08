@@ -1,51 +1,55 @@
-<!--{{  profilesStore$ | async | json }}-->
-
 <a routerLink="form">Update</a>
 
 <div class="user-info" *ngIf="profilesStore$ | async as profile">
-    <div class="p-3">
-        <div class="container p-5">
-            <div class="user-top-info">
-                <div>
-                    <img src="#" alt="user profile picture" class="rounded img-fluid" />
-                    <h1 class="display-3 text-primary"><b>User Name</b></h1>
-                </div>
-                <dl>
-                    <dt><small>Born</small></dt>
-                    <dd><small>{{  profile.profile.born || '-' }}</small></dd>
+    <!-- {{ profile.profile | json }} -->
+    <div class="hero">
+        <div class="container">
+            <div class="hero__area">
+                <img [src]="'http://localhost:3000/' + profile.profile.picturePath" alt="user profile picture"
+                    class="img-rounded img-fluid" />
+                <h1 class="text-primary text-center"><b>{{ profile.profile.displayName }}</b></h1>
+                <small class="lead">@{{ userName }}</small>
 
-                    <dt><small>Nationality</small></dt>
-                    <dd><small>{{  profile.profile.nationality || '-' }}</small></dd>
+                <button class="btn btn-primary my-3 w-100" type="button">Follow</button>
 
-                    <dt><small>Gender</small></dt>
-                    <dd><small>{{  profile.profile.gender || '-' }}</small></dd>
+                <h2 class="d-none">Bio</h2>
+                <p class="lead text-center">
+                    <em>{{ profile.profile.bio || '-' }}</em>
+                </p>
+            </div>
 
-                    <dt><small>Following</small></dt>
-                    <dd><small>2134</small></dd>
+            <div class="user-personal p-4">
+                <dl class="user-personal__table">
+                    <dt>Born</dt>
+                    <dd>{{ profile.profile.born || '-' }}</dd>
 
-                    <dt><small>Followers</small></dt>
-                    <dd><small>123</small></dd>
+                    <dt>Nationality</dt>
+                    <dd>{{ profile.profile.nationality || '-' }}</dd>
 
-                    <dt><small>Joined</small></dt>
-                    <dd><small>1 Year</small></dd>
+                    <dt>Gender</dt>
+                    <dd>{{ profile.profile.gender || '-' }}</dd>
+
+                    <dt>Following</dt>
+                    <dd>2134</dd>
+
+                    <dt>Followers</dt>
+                    <dd>123</dd>
+
+                    <dt>Joined</dt>
+                    <dd>{{ profile.profile.joined }}</dd>
                 </dl>
             </div>
-        </div>
-
-        <div class="container mb-5">
-            <h2 class="d-none">Bio</h2>
-            <p class="lead text-center">
-                {{ profile.profile.bio || '-' }}
-            </p>
+            
         </div>
     </div>
 
-<div class="posts-container">
-    <a class="btn btn-secondary w-100" routerLink="post-form">+</a>
-    <div class="posts">
-        <router-outlet></router-outlet>
-        <app-posts></app-posts>
+    <div class="posts-container">
+        <a *ngIf="isUsers" class="btn btn-secondary w-100 text-light" routerLink="post-form">+</a>
+        <div class="posts">
+            <div class="my-5">
+                <router-outlet></router-outlet>
+            </div>
+            <app-posts></app-posts>
+        </div>
     </div>
 </div>
-</div>
-

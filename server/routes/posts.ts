@@ -5,6 +5,7 @@ import { body, param, validationResult } from "express-validator";
 import asyncHandler from 'express-async-handler';
 
 import Post from "../models/post.js";
+import Profile from "../models/profile.js";
 
 
 const storage = multer.diskStorage({
@@ -40,18 +41,64 @@ router.get('/:id/comments', [
     }
 }));
 
+// TODO: sort by loves and comments!
 router.get('/', asyncHandler(async (req, res) => {
-    const posts = (await Post.find()).map(post => {
+    const postsPromises = (await Post.find().lean()).map(async (post: any) => {
         post.comments = post.comments.slice(0, DEFAULT_COMMENTS_PER_POST);
+
+        const profile = (await Profile.findById((req.user as any).id)).toJSON();
+
+        const comments = post.comments.slice(0, 2);
+        for (const comment of comments) {
+            const profile = (await Profile.findById(comment.user)).toJSON();
+            comment.profilePicPath = (profile as any).picturePath;
+        }
+
+        post.profilePicPath = (profile as any).picturePath;
+        post.comments = comments;
+
         return post;
     });
 
+    const posts = await Promise.all(postsPromises);
     res.json({ posts, message: 'Posts fetched successfully' });
     return;
 }));
 
+
+router.get('/followings', asyncHandler(async(req, res) => {
+    const user: any = req.user;
+
+    const posts = await Profile.aggregate([
+        { $match: { _id: (req.user as any)._id } },
+        { $lookup: { from: 'posts', localField: '_id', foreignField: 'user', as: 'posts' } },
+        { $project: { _id: 0, posts: 1 } },
+        { $unwind: '$posts' },
+        { $replaceRoot: { newRoot: "$posts" } },
+        { $sort: { date: -1 } },
+        { $limit: 2 },
+    ]);
+
+    res.json({
+        posts,
+        message: 'Got posts of the followed profiles successfully',
+    });
+    return;
+}));
+
 router.get('/:id', asyncHandler(async (req, res) => {
-    const post = await Post.findById(req.params.id);
+    const post: any = await Post.findById(req.params.id).lean();
+
+    const profile = (await Profile.findById((req.user as any).id)).toJSON();
+
+    const comments = post.comments.slice(0, 2);
+    for (const comment of comments) {
+        const profile = (await Profile.findById(comment.user)).toJSON();
+        comment.profilePicPath = (profile as any).picturePath;
+    }
+
+    post.profilePicPath = (profile as any).picturePath;
+    post.comments = comments;
 
     res.json({ post, message: `Post ${req.params.id} fetched successfully` });
     return;
@@ -95,7 +142,6 @@ router.post('/:id/comments', [
     });
     return;
 }));
-
 
 router.post('/', upload.single('file'), [
     body('content')
@@ -142,7 +188,7 @@ router.post('/:id/loves', [
     const post = await Post.findById(req.params.id);
     if (!post) {
         res.json({
-            message: 'Post not find',
+            message: 'Post not found',
             errors: result.array(),
         });
         return;
@@ -186,19 +232,64 @@ router.put('/:id', [
         return;
     }
 
-    const newPost = {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+        res.json({
+            message: 'Post not found',
+        });
+        return;
+    }
+
+    if ((req.user as any).id.toString() !== post.user.toString()) {
+        res.json({
+            message: 'Post not owned by the user',
+        });
+        return;
+    }
+
+    const newPostData = {
         content: req.body.content,
     };
+    const newPost = await Post.findByIdAndUpdate(req.params.id, newPostData);
 
-    const post = await Post.findByIdAndUpdate(req.params.id, newPost);
-
-    res.json({ message: 'Post updated successfuly', post });
+    res.json({ message: 'Post updated successfuly', newPost });
     return;
 }));
 
-router.delete('/:id', asyncHandler(async(req, res) => {
-    const post = await Post.findByIdAndRemove(req.params.id);
-    res.json({ message: 'Post deleted successfuly', id: req.params.id });
+router.delete('/:id', [
+    param('id')
+        .isMongoId()
+        .withMessage("Post id must be provided")
+], asyncHandler(async(req, res) => {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+        res.json({
+            message: 'Deleting post failed',
+            errors: result.array(),
+        });
+        return;
+    }
+
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+        res.json({
+            message: 'Post not found',
+        });
+        return;
+    }
+
+    if ((req.user as any).id.toString() !== post.user.toString()) {
+        res.json({
+            message: 'Post not owned by the user',
+        });
+        return;
+    }
+
+    await Post.findByIdAndRemove(req.params.id);
+    res.json({
+        message: 'Post deleted successfully',
+        id: req.params.id
+    });
     return;
 }));
 
